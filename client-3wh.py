@@ -27,6 +27,11 @@ SEND_PACKET_SIZE = 1000  # should be less than max packet size of 1500 bytes
 # A client class for implementing TCP's three-way-handshake connection establishment and closing protocol,
 # along with data transmission.
 
+# /*
+#  * client.c
+#  * Name: Shourya Verma
+#  * PUID: 36340138
+#  */
 
 class Client3WH:
 
@@ -97,20 +102,20 @@ class Client3WH:
 		print("attempting to connect")
 		syn = self.ip/TCP(sport=self.sport, dport=self.dport, flags='S', seq=self.next_seq)
 		print("sending SYN packet")
-		syn_ack = sr1(syn, timeout=5, verbose=True)
+		syn_ack = sr1(syn,timeout=5)
 
 		if syn_ack is None:
 			print("no response recvd")
 			return False
 
-		print("received SYN-ACK")
+		print("recvd SYN-ACK")
 		self.next_ack = syn_ack[TCP].seq + 1
 		self.next_seq += 1
 
 		# ACK
 		ack = self.ip/TCP(sport=self.sport, dport=self.dport, flags='A', seq=self.next_seq, ack=self.next_ack)
 		send(ack)
-		print("Sent ACK")
+		print("sent ACK")
 		### END: ADD YOUR CODE HERE ... #####
 
 		self.connected = True
@@ -127,8 +132,8 @@ class Client3WH:
 
 		### BEGIN: ADD YOUR CODE HERE ... ###
 		# FIN
-		fin = self.ip/TCP(sport=self.sport, dport=self.dport, flags='F', seq=self.next_seq, ack=self.next_ack)
-		fin_ack = sr1(fin, timeout=5, verbose=True)
+		fin = self.ip/TCP(sport=self.sport, dport=self.dport, flags='FA', seq=self.next_seq, ack=self.next_ack)
+		fin_ack = sr1(fin,timeout=5)
 
 		if fin_ack is None:
 			print("no FIN-ACK recvd")
@@ -155,7 +160,7 @@ class Client3WH:
 		print("sending payload")
 		data = self.ip/TCP(sport=self.sport, dport=self.dport, flags='PA', seq=self.next_seq, ack=self.next_ack)/Raw(load=payload)
 		print("sending packet")
-		ack = sr1(data, timeout=5, verbose=True)
+		ack = sr1(data,timeout=5)
 
 		if ack is None:
 			print("no ack recvd from server")

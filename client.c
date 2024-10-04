@@ -41,6 +41,7 @@ int client(char *server_ip, char *server_port) {
 	struct addrinfo hints, *servinfo, *p;
 	char buf[SEND_BUFFER_SIZE];
 
+	// get address info
 	memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
@@ -50,12 +51,16 @@ int client(char *server_ip, char *server_port) {
 		return 1;
 	}
 
+	// loop through results and connect to first
 	for(p = servinfo; p != NULL; p = p->ai_next) {
+
+		// create socket
 		if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1) {
 			perror("client: socket");
 			continue;
 		}
 
+		// connect to server
 		if (connect(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
 			close(sockfd);
 			perror("client: connect");
@@ -65,15 +70,17 @@ int client(char *server_ip, char *server_port) {
 		break;
 	}
 
+	// check if connection was successful
 	if (p == NULL) {
 		fprintf(stderr, "\nclient: connection failed\n");
 		return 2;
 	}
 
-	freeaddrinfo(servinfo);
+	freeaddrinfo(servinfo); // all done with this structure
 
-	fprintf(stderr, "\nclient: connected\n");
+	fprintf(stderr, "\nclient: connected\n"); // print message
 
+	// read from stdin and send to server
 	while ((numbytes = read(STDIN_FILENO, buf, SEND_BUFFER_SIZE)) > 0) {
 		int total = 0;
 		while (total < numbytes) {
@@ -87,10 +94,12 @@ int client(char *server_ip, char *server_port) {
 		}
 	}
 
+	// check if read was successful
 	if (numbytes == -1) {
 		perror("read");
 	}
 
+	// close socket
 	close(sockfd);
 	fprintf(stderr, "\nclient closed\n");
 	return 0;

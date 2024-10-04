@@ -40,6 +40,7 @@
 #define RECV_BUFFER_SIZE 2048
 
 int server(char *server_port) {
+	// variables
 	struct addrinfo hints, *servinfo, *p;
 	struct sockaddr_storage their_addr;
 	int sockfd, new_fd, rv;
@@ -48,6 +49,7 @@ int server(char *server_port) {
 	char s[INET6_ADDRSTRLEN];
 	int yes = 1;
 
+	// get address info
 	memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
@@ -58,18 +60,21 @@ int server(char *server_port) {
 		return 1;
 	}
 
+	// loop through results and bind to first
 	for(p = servinfo; p != NULL; p = p->ai_next) {
 		if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1) {
 			perror("server: socket");
 			continue;
 		}
 
+		// allow reuse of port
 		if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) {
 			perror("setsockopt");
 			close(sockfd);
 			continue;
 		}
 
+		// bind to port
 		if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
 			close(sockfd);
 			perror("server: bind");
@@ -79,39 +84,47 @@ int server(char *server_port) {
 		break;
 	}
 
-	freeaddrinfo(servinfo);
+	freeaddrinfo(servinfo); // all done with this structure
 
+	// check if bind was successful
 	if (p == NULL) {
 		fprintf(stderr, "\nserver: bind failed\n");
 		return 2;
 	}
 
+	// listen for incoming connections
 	if (listen(sockfd, QUEUE_LENGTH) == -1) {
 		perror("listen");
 		return 3;
 	}
 
+	// print message
 	fprintf(stderr, "\nserver: waiting for connections on port %s...\n", server_port);
 
 	while(1) {
 		sin_size = sizeof their_addr;
-		new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
+		new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size); // accept incoming connection
 		if (new_fd == -1) {
 			perror("accept");
 			continue;
 		}
 
+		// print message IP address of client
 		inet_ntop(their_addr.ss_family, &(((struct sockaddr_in*)&their_addr)->sin_addr), s, sizeof s);
 		fprintf(stderr, "\nserver: connected from %s\n", s);
 
 		int total_bytes = 0;
 		int numbytes;
+
+		// receive data from client
 		while (1) {
 			int numbytes = recv(new_fd, buf, RECV_BUFFER_SIZE - 1, 0);
 			if (numbytes <= 0) {
 				if (numbytes < 0) perror("recv");
 				break;
 			}
+
+			// write data to stdout
 			if (write(STDOUT_FILENO, buf, numbytes) != numbytes) {
 				fprintf(stderr, "error writing to stdout\n");
 				break;
@@ -120,6 +133,7 @@ int server(char *server_port) {
 			total_bytes += numbytes;
 		}
 
+		// handle errors and close connection
 		if (numbytes == -1) {
 			perror("recv");
 		} else if (numbytes == 0) {
