@@ -21,6 +21,8 @@
  * client.c
  * Name: Shourya Verma
  * PUID: 36340138
+ * worked with Ishaan Jain
+ * also discussed with Arpan Mahapatra and Swathi Jayaprakash
  */
 
 #include <stdio.h>

@@ -28,9 +28,11 @@ SEND_PACKET_SIZE = 1000  # should be less than max packet size of 1500 bytes
 # along with data transmission.
 
 # /*
-#  * client.c
+#  * client-3wh.py
 #  * Name: Shourya Verma
 #  * PUID: 36340138
+#  * worked with Ishaan Jain
+#  * also discussed with Arpan Mahapatra and Swathi Jayaprakash
 #  */
 
 class Client3WH:
