@@ -298,8 +298,8 @@ if __name__ == '__main__':
 
 	# Install VLAN-specific broadcast rules
 	for vlan_id, ports in vlan_id_to_ports_map.items():
-		if vlan_id != '0':  # Skip default VLAN
-			InstallMcastGrpEntry(int(vlan_id), ports)
+		mcast_group2 = mcast_group_id + vlan_id
+		InstallMcastGrpEntry(mcast_group2, ports)
 
 	##################################################################################
 	# Install VLAN Broadcast Rules - Ends ############################################
@@ -325,8 +325,8 @@ if __name__ == '__main__':
 
 	# Delete VLAN-specific broadcast rules
 	for vlan_id in vlan_id_to_ports_map.keys():
-		mcast_group_id = vlan_id  # Use VLAN ID as multicast group ID
-		DeleteMcastGrpEntry(mcast_group_id)
+		mcast_group_id = mcast_group_id + vlan_id
+		DeleteMcastGrpEntry(mcast_group2)
 
 	##################################################################################
 	# Delete VLAN Broadcast Rules - Ends #############################################
