@@ -178,6 +178,8 @@ def ProcPacketIn(switch_name, mcast_group_id,
 				#     it yet)
 				
 				if eth_type == ETH_TYPE_ARP:
+					print(f"DEBUG: ARP packet received - vlan_id={vlan_id}")
+					print(f"DEBUG: VLAN ports map: {vlan_id_to_ports_map}")
 					# Handle ARP request
 					# Learn the Ethernet address to port mapping
 					if vlan_id not in eth_to_port_map:
@@ -187,8 +189,8 @@ def ProcPacketIn(switch_name, mcast_group_id,
 
 					# # For broadcast, always use the default multicast group ID for untagged traffic
 					if vlan_id in vlan_id_to_ports_map:
-						mcast_group_id_vlan = mcast_group_id + vlan_id
-						mcast_grp_in_bytes = mcast_group_id_vlan.to_bytes(2, byteorder='big')
+						print(f"DEBUG: Broadcasting ARP in VLAN {vlan_id} to ports {vlan_id_to_ports_map[vlan_id]}")
+						mcast_grp_in_bytes = vlan_id.to_bytes(2, byteorder='big')
 					else:
 						mcast_grp_in_bytes = mcast_group_id.to_bytes(2, byteorder='big')
 					ProcPacketOut(payload, mcast_grp_in_bytes, ingress_port_in_bytes)
