@@ -15,6 +15,8 @@
 ##     You should have received a copy of the GNU General Public License
 ##     along with Purdue CS 536. If not, see <https://www.gnu.org/licenses/>.
 ##
+
+## Done by Shourya Verma
 #############################################################################
 
 import json
@@ -183,13 +185,12 @@ def ProcPacketIn(switch_name, mcast_group_id,
 					eth_to_port_map[vlan_id][src_mac] = {'port': ingress_port,
 														'count': num_entries_threshold}
 
-					# For broadcast, always use the default multicast group ID for untagged traffic
-					if vlan_id == 0:  # Untagged traffic
-						mcast_group_id = mcast_group_id  # Use the default from topo config
-					else:  # VLAN traffic
-						mcast_group_id = vlan_id
-						
-					mcast_grp_in_bytes = mcast_group_id.to_bytes(2, byteorder='big')
+					# # For broadcast, always use the default multicast group ID for untagged traffic
+					if vlan_id in vlan_id_to_ports_map:
+						mcast_group_id_vlan = mcast_group_id + vlan_id
+						mcast_grp_in_bytes = mcast_group_id_vlan.to_bytes(2, byteorder='big')
+					else:
+						mcast_grp_in_bytes = mcast_group_id.to_bytes(2, byteorder='big')
 					ProcPacketOut(payload, mcast_grp_in_bytes, ingress_port_in_bytes)
 
 				else:
@@ -197,13 +198,11 @@ def ProcPacketIn(switch_name, mcast_group_id,
 					if vlan_id in eth_to_port_map and dst_mac in eth_to_port_map[vlan_id]:
 						# Forward packet using learned mapping
 						egress_port = eth_to_port_map[vlan_id][dst_mac]['port']
-						egress_port_in_bytes = egress_port.to_bytes(2, byteorder='big')
-						ProcPacketOut(payload, b'\x00\x00', ingress_port_in_bytes, egress_port_in_bytes)
+						if egress_port != ingress_port:
+							egress_port_in_bytes = egress_port.to_bytes(2, byteorder='big')
+							ProcPacketOut(payload, b'\x00\x00', ingress_port_in_bytes, egress_port_in_bytes)
 					else:
-						# If no mapping exists, broadcast using default multicast group
-						if vlan_id == 0:  # Untagged traffic
-							mcast_grp_in_bytes = mcast_group_id.to_bytes(2, byteorder='big')
-							ProcPacketOut(payload, mcast_grp_in_bytes, ingress_port_in_bytes)
+						print(f"Dropping packet: VLAN {vlan_id}, dst_mac {dst_mac} not found")
 
 				##################################################################################
 				# Learning switch logic - Ends ###################################################
@@ -298,8 +297,7 @@ if __name__ == '__main__':
 
 	# Install VLAN-specific broadcast rules
 	for vlan_id, ports in vlan_id_to_ports_map.items():
-		mcast_group2 = mcast_group_id + vlan_id
-		InstallMcastGrpEntry(mcast_group2, ports)
+		InstallMcastGrpEntry(vlan_id, ports)
 
 	##################################################################################
 	# Install VLAN Broadcast Rules - Ends ############################################
@@ -325,8 +323,7 @@ if __name__ == '__main__':
 
 	# Delete VLAN-specific broadcast rules
 	for vlan_id in vlan_id_to_ports_map.keys():
-		mcast_group_id = mcast_group_id + vlan_id
-		DeleteMcastGrpEntry(mcast_group2)
+		DeleteMcastGrpEntry(vlan_id)
 
 	##################################################################################
 	# Delete VLAN Broadcast Rules - Ends #############################################
