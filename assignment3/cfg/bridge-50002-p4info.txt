@@ -1,0 +1,77 @@
+pkg_info {
+  arch: "v1model"
+}
+tables {
+  preamble {
+    id: 33560379
+    name: "MyIngress.bridge_table"
+    alias: "bridge_table"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.ethernet.dstAddr"
+    bitwidth: 48
+    match_type: EXACT
+  }
+  match_fields {
+    id: 2
+    name: "standard_metadata.ingress_port"
+    bitwidth: 9
+    match_type: EXACT
+  }
+  action_refs {
+    id: 16805608
+  }
+  action_refs {
+    id: 16820798
+  }
+  size: 1024
+}
+actions {
+  preamble {
+    id: 16805608
+    name: "MyIngress.drop"
+    alias: "MyIngress.drop"
+  }
+}
+actions {
+  preamble {
+    id: 16820798
+    name: "MyIngress.flood"
+    alias: "flood"
+  }
+}
+actions {
+  preamble {
+    id: 16816924
+    name: "MyEgress.drop"
+    alias: "MyEgress.drop"
+  }
+}
+actions {
+  preamble {
+    id: 16821424
+    name: "MyEgress.to_controller"
+    alias: "to_controller"
+  }
+}
+controller_packet_metadata {
+  preamble {
+    id: 67146229
+    name: "packet_in"
+    alias: "packet_in"
+    annotations: "@controller_header(\"packet_in\")"
+  }
+  metadata {
+    id: 1
+    name: "ingress_port"
+    bitwidth: 9
+  }
+  metadata {
+    id: 2
+    name: "_pad"
+    bitwidth: 7
+  }
+}
+type_info {
+}

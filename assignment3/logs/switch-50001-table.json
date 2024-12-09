@@ -1,0 +1,92 @@
+table_id: 33555186 ("MyIngress.switch_table")
+match {
+  field_id: 1 ("hdr.ethernet.dstAddr")
+  exact {
+    value: "\\x8a\\xc9\\x5c\\x93\\xbd\\xae"
+  }
+}
+match {
+  field_id: 2 ("meta.vid")
+  exact {
+    value: "\\x00"
+  }
+}
+action {
+  action {
+    action_id: 16838673 ("MyIngress.forward")
+    params {
+      param_id: 1 ("port")
+      value: "\\x01"
+    }
+  }
+}
+
+table_id: 33555186 ("MyIngress.switch_table")
+match {
+  field_id: 1 ("hdr.ethernet.dstAddr")
+  exact {
+    value: "\\xf2\\xb9\\x89\\xe8\\xcb\\x90"
+  }
+}
+match {
+  field_id: 2 ("meta.vid")
+  exact {
+    value: "\\x00"
+  }
+}
+action {
+  action {
+    action_id: 16838673 ("MyIngress.forward")
+    params {
+      param_id: 1 ("port")
+      value: "\\x03"
+    }
+  }
+}
+
+table_id: 33555186 ("MyIngress.switch_table")
+match {
+  field_id: 1 ("hdr.ethernet.dstAddr")
+  exact {
+    value: "\\xb2\\x43\\x90\\xb1\\x4d\\x92"
+  }
+}
+match {
+  field_id: 2 ("meta.vid")
+  exact {
+    value: "\\x00"
+  }
+}
+action {
+  action {
+    action_id: 16838673 ("MyIngress.forward")
+    params {
+      param_id: 1 ("port")
+      value: "\\x02"
+    }
+  }
+}
+
+table_id: 33555186 ("MyIngress.switch_table")
+match {
+  field_id: 1 ("hdr.ethernet.dstAddr")
+  exact {
+    value: "\\x32\\x55\\x3e\\xdf\\x1a\\xc1"
+  }
+}
+match {
+  field_id: 2 ("meta.vid")
+  exact {
+    value: "\\x00"
+  }
+}
+action {
+  action {
+    action_id: 16838673 ("MyIngress.forward")
+    params {
+      param_id: 1 ("port")
+      value: "\\x03"
+    }
+  }
+}
+

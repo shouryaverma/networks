@@ -1,0 +1,190 @@
+table_id: 33560379 ("MyIngress.bridge_table")
+match {
+  field_id: 1 ("hdr.ethernet.dstAddr")
+  exact {
+    value: "\\xf6\\x2b\\x6f\\xe1\\xfa\\x78"
+  }
+}
+match {
+  field_id: 2 ("standard_metadata.ingress_port")
+  exact {
+    value: "\\x01"
+  }
+}
+action {
+  action {
+    action_id: 16805608 ("MyIngress.drop")
+  }
+}
+
+table_id: 33560379 ("MyIngress.bridge_table")
+match {
+  field_id: 1 ("hdr.ethernet.dstAddr")
+  exact {
+    value: "\\x2e\\x32\\xaa\\xae\\x86\\x9b"
+  }
+}
+match {
+  field_id: 2 ("standard_metadata.ingress_port")
+  exact {
+    value: "\\x03"
+  }
+}
+action {
+  action {
+    action_id: 16805608 ("MyIngress.drop")
+  }
+}
+
+table_id: 33560379 ("MyIngress.bridge_table")
+match {
+  field_id: 1 ("hdr.ethernet.dstAddr")
+  exact {
+    value: "\\xc6\\x8c\\xb1\\x6e\\x77\\x3e"
+  }
+}
+match {
+  field_id: 2 ("standard_metadata.ingress_port")
+  exact {
+    value: "\\x02"
+  }
+}
+action {
+  action {
+    action_id: 16805608 ("MyIngress.drop")
+  }
+}
+
+table_id: 33560379 ("MyIngress.bridge_table")
+match {
+  field_id: 1 ("hdr.ethernet.dstAddr")
+  exact {
+    value: "\\x7e\\x9c\\xdb\\x01\\xf5\\x8b"
+  }
+}
+match {
+  field_id: 2 ("standard_metadata.ingress_port")
+  exact {
+    value: "\\x03"
+  }
+}
+action {
+  action {
+    action_id: 16805608 ("MyIngress.drop")
+  }
+}
+
+table_id: 33560379 ("MyIngress.bridge_table")
+match {
+  field_id: 1 ("hdr.ethernet.dstAddr")
+  exact {
+    value: "\\xc2\\xd5\\x31\\xe4\\x21\\x87"
+  }
+}
+match {
+  field_id: 2 ("standard_metadata.ingress_port")
+  exact {
+    value: "\\x02"
+  }
+}
+action {
+  action {
+    action_id: 16805608 ("MyIngress.drop")
+  }
+}
+
+table_id: 33560379 ("MyIngress.bridge_table")
+match {
+  field_id: 1 ("hdr.ethernet.dstAddr")
+  exact {
+    value: "\\x3e\\xcf\\x6d\\x13\\xaf\\x19"
+  }
+}
+match {
+  field_id: 2 ("standard_metadata.ingress_port")
+  exact {
+    value: "\\x03"
+  }
+}
+action {
+  action {
+    action_id: 16805608 ("MyIngress.drop")
+  }
+}
+
+table_id: 33560379 ("MyIngress.bridge_table")
+match {
+  field_id: 1 ("hdr.ethernet.dstAddr")
+  exact {
+    value: "\\xbe\\x91\\x6b\\x59\\x5e\\x4a"
+  }
+}
+match {
+  field_id: 2 ("standard_metadata.ingress_port")
+  exact {
+    value: "\\x03"
+  }
+}
+action {
+  action {
+    action_id: 16805608 ("MyIngress.drop")
+  }
+}
+
+table_id: 33560379 ("MyIngress.bridge_table")
+match {
+  field_id: 1 ("hdr.ethernet.dstAddr")
+  exact {
+    value: "\\x1e\\x63\\x48\\x3c\\x33\\x3e"
+  }
+}
+match {
+  field_id: 2 ("standard_metadata.ingress_port")
+  exact {
+    value: "\\x03"
+  }
+}
+action {
+  action {
+    action_id: 16805608 ("MyIngress.drop")
+  }
+}
+
+table_id: 33560379 ("MyIngress.bridge_table")
+match {
+  field_id: 1 ("hdr.ethernet.dstAddr")
+  exact {
+    value: "\\x82\\x94\\x6f\\xc1\\xc0\\x9e"
+  }
+}
+match {
+  field_id: 2 ("standard_metadata.ingress_port")
+  exact {
+    value: "\\x03"
+  }
+}
+action {
+  action {
+    action_id: 16805608 ("MyIngress.drop")
+  }
+}
+
+table_id: 33560379 ("MyIngress.bridge_table")
+match {
+  field_id: 1 ("hdr.ethernet.dstAddr")
+  exact {
+    value: "\\x96\\xe3\\x51\\x49\\x00\\xad"
+  }
+}
+match {
+  field_id: 2 ("standard_metadata.ingress_port")
+  exact {
+    value: "\\x01"
+  }
+}
+action {
+  action {
+    action_id: 16805608 ("MyIngress.drop")
+  }
+}
+

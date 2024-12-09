@@ -1,0 +1,76 @@
+table_id: 33599707 ("MyEgress.vlan_table")
+match {
+  field_id: 1 ("standard_metadata.egress_port")
+  exact {
+    value: "\\x01"
+  }
+}
+match {
+  field_id: 2 ("meta.vid")
+  exact {
+    value: "\\x64"
+  }
+}
+action {
+  action {
+    action_id: 16788388 ("MyEgress.noop")
+  }
+}
+
+table_id: 33599707 ("MyEgress.vlan_table")
+match {
+  field_id: 1 ("standard_metadata.egress_port")
+  exact {
+    value: "\\x03"
+  }
+}
+match {
+  field_id: 2 ("meta.vid")
+  exact {
+    value: "\\x64"
+  }
+}
+action {
+  action {
+    action_id: 16788388 ("MyEgress.noop")
+  }
+}
+
+table_id: 33599707 ("MyEgress.vlan_table")
+match {
+  field_id: 1 ("standard_metadata.egress_port")
+  exact {
+    value: "\\x02"
+  }
+}
+match {
+  field_id: 2 ("meta.vid")
+  exact {
+    value: "\\xc8"
+  }
+}
+action {
+  action {
+    action_id: 16788388 ("MyEgress.noop")
+  }
+}
+
+table_id: 33599707 ("MyEgress.vlan_table")
+match {
+  field_id: 1 ("standard_metadata.egress_port")
+  exact {
+    value: "\\x03"
+  }
+}
+match {
+  field_id: 2 ("meta.vid")
+  exact {
+    value: "\\xc8"
+  }
+}
+action {
+  action {
+    action_id: 16788388 ("MyEgress.noop")
+  }
+}
+
